@@ -4,9 +4,18 @@
 
 ## Tagline
 
-Every offer scam hands you its own "verification" contacts. OfferCheck shows which
-channels the institution actually controls — then a way to check that the scammer can't
-intercept. Nothing you paste ever leaves your browser.
+"Call the number in this email to confirm." — every offer scam says some version of
+this. OfferCheck's answer: no. It maps which contact channels the institution actually
+controls, then builds a verification path the scammer can't intercept. Nothing you
+paste ever leaves your browser.
+
+## Originality
+
+Not a generic scam detector (that category exists, including in this series). The
+differentiator is **channel provenance**: every contact the offer asks you to use gets a
+verdict — Official, Unrelated, Lookalike, or Unverifiable — and the verification path is
+built only from the institution you claim sent it. A legitimate offer demonstrably
+scores Low, and the zero-network guarantee is enforced by CSP, not promised.
 
 ## Inspiration
 
@@ -89,5 +98,20 @@ APIs, or datasets are used at runtime.
 
 - Repo: https://github.com/sharonbasovich/offercheck-305
 - Demo: https://sharonbasovich.github.io/offercheck-305/
-- Video: _[add YouTube/Drive link after recording per docs/capture-plan.md]_
+- Video: _[add YouTube/Drive link — narrated MP4 recorded at docs/../artifacts]_
 - Slides: _[add public Google Slides link]_
+
+## Devpost field map
+
+| Devpost field | Paste |
+|---|---|
+| Project name | OfferCheck |
+| Tagline | (the Tagline block above) |
+| About this project | Inspiration → What's next sections above |
+| Built with | React, TypeScript, Vite, Vitest, GitHub Pages |
+| Try it out | https://sharonbasovich.github.io/offercheck-305/ |
+| GitHub repo | https://github.com/sharonbasovich/offercheck-305 |
+| Video demo | _MP4/YouTube link — see capture plan_ |
+| GenAI question | Devin (Cognition) — design + implementation; answer honestly, add "Other" |
+| Prizes | Session B (virtual); Gemma Challenge only if an on-device model ships — it does not |
+| Screenshots | docs/screenshots/*.png in the repo |

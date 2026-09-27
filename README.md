@@ -13,6 +13,8 @@ It runs entirely in your browser: nothing you paste is sent, logged, or stored a
 - **Team:** Solo — Sharon Basovich
 - **Demo video / slides:** see `docs/capture-plan.md`
 
+![OfferCheck flagging a synthetic scam offer — Stop band, lookalike sender, channel map](docs/screenshots/05-scam-full.png)
+
 ---
 
 ## 1. Overview
