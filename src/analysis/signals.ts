@@ -42,7 +42,7 @@ const PAYMENT = phraseBank("payment", [
     weight: 40,
   },
   {
-    pattern: /\b(?:processing|activation|registration|application|training|starter[-\s]?kit|equipment|software|background\s*check|release|verification|insurance|clearance|disbursement|onboarding)\s+fees?\b/gi,
+    pattern: /\b(?:processing|activation|registration|application|training|starter[-\s]?kit|equipment|software|background\s*check|release|verification|insurance|clearance|disbursement|onboarding|kit)\s+(?:fees?|charges?|costs?)\b/gi,
     title: "Upfront fee request",
     detail: "Any fee you must pay to receive a job, internship, or scholarship is a classic scam. Real employers and funders do not charge applicants.",
     severity: "high",
@@ -66,6 +66,13 @@ const PAYMENT = phraseBank("payment", [
     pattern: /\b(?:check|cheque)\b[^.\n]{0,160}\b(?:vendor|supplier|equipment\s*(?:purchase|kit|bundle)|starter\s*kit)/gi,
     title: "Fake-check vendor purchase",
     detail: "Fake-check scams have you deposit a check and forward the balance to a 'vendor' or 'supplier'. The check bounces and the money you sent is gone.",
+    severity: "high",
+    weight: 40,
+  },
+  {
+    pattern: /(?<=^|[.!?\n])[^.!?\n]*?(?=[^.!?\n]*\b(?:fees?|charges?|costs?|payable|price|purchase|buy)\b)[^.!?\n]*?\b(?:venmo|cash\s*app|zelle|paypal|apple\s*(?:pay|cash)|interac(?:\s*e-?transfer)?|e-?transfer)\b/gi,
+    title: "Fee payable through a payment app",
+    detail: "The offer asks you to pay a fee or charge through a peer-to-peer payment app. These transfers are instant and hard to reverse, which is why scammers prefer them. Real employers and funders do not charge you.",
     severity: "high",
     weight: 40,
   },

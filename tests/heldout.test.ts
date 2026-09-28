@@ -92,6 +92,54 @@ describe("held-out scam cases", () => {
   });
 });
 
+describe("held-out payment-app fees", () => {
+  it("training-kit charge payable via Venmo or Cash App reaches Stop", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "Target",
+        claimedDomain: "target.com",
+        offerText:
+          "Target Remote Hiring Team: you've been shortlisted. Before your start " +
+          "date there is a $60 training kit charge payable via Venmo or Cash App " +
+          "to @target-hr-team. Reply YES to proceed.",
+      }),
+    );
+    expect(r.band).toBe("stop");
+    expect(hasSignal(r, "Fee payable through a payment app")).toBe(true);
+    expect(hasSignal(r, "Upfront fee request")).toBe(true);
+  });
+
+  it("Interac e-Transfer application cost is flagged", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "Maple Futures Bursary",
+        claimedDomain: "maplefutures.ca",
+        senderEmail: "bursary@maplefutures.ca",
+        offerText:
+          "You are eligible for the Maple Futures Bursary. The one-time file " +
+          "review cost of $35 can be sent by Interac e-Transfer to confirm your spot.",
+      }),
+    );
+    expect(hasSignal(r, "Fee payable through a payment app")).toBe(true);
+    expect(r.score).toBeGreaterThanOrEqual(40);
+  });
+
+  it("stipend paid by direct deposit with no fee stays Low", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "University of Waterloo",
+        claimedDomain: "uwaterloo.ca",
+        senderEmail: "coop@uwaterloo.ca",
+        offerText:
+          "Your co-op stipend will be paid by direct deposit through university " +
+          "payroll every two weeks. There is no cost to you. Questions: coop@uwaterloo.ca.",
+      }),
+    );
+    expect(r.band).toBe("low");
+    expect(hasSignal(r, "Fee payable through a payment app")).toBe(false);
+  });
+});
+
 describe("held-out legitimate controls", () => {
   it("uwaterloo.ca research assistant offer stays Low", () => {
     const r = analyzeOffer(
