@@ -199,6 +199,44 @@ describe("institutional affiliated domains", () => {
   });
 });
 
+describe("held-out professor-assistant scam", () => {
+  it("gmail 'professor' personal-assistant errand job reaches Stop", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "University of Waterloo",
+        claimedDomain: "uwaterloo.ca",
+        senderEmail: "dr.mark.hollis.uw@gmail.com",
+        offerText:
+          "Hello student, I am Dr. Mark Hollis from the Department of Biology. I am " +
+          "looking for a part-time remote personal assistant to run errands and " +
+          "handle tasks while I travel for a conference. The position pays $400 " +
+          "weekly. If interested, reply with your full name, personal email and " +
+          "cell phone number.",
+      }),
+    );
+    expect(r.band).toBe("stop");
+    expect(hasSignal(r, "Personal-assistant / errand job")).toBe(true);
+    expect(hasSignal(r, "Asks to move to personal contact details")).toBe(true);
+  });
+
+  it("official-domain research assistant offer does not trigger the errand-job rule", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "University of Waterloo",
+        claimedDomain: "uwaterloo.ca",
+        senderEmail: "j.chen@uwaterloo.ca",
+        offerText:
+          "Hi Priya, I'm pleased to offer you a research assistant position in my " +
+          "lab this winter, 10 hours per week through university payroll. Please " +
+          "confirm by replying to this email.",
+      }),
+    );
+    expect(r.band).toBe("low");
+    expect(hasSignal(r, "Personal-assistant / errand job")).toBe(false);
+    expect(hasSignal(r, "Asks to move to personal contact details")).toBe(false);
+  });
+});
+
 describe("held-out legitimate controls", () => {
   it("uwaterloo.ca research assistant offer stays Low", () => {
     const r = analyzeOffer(

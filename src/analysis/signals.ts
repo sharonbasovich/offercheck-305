@@ -108,6 +108,13 @@ const PII = phraseBank("pii", [
     severity: "medium",
     weight: 20,
   },
+  {
+    pattern: /\b(?:personal|private|alternate|alternative|non[-\s]?(?:university|school|work))\s+(?:e-?mail|phone|cell(?:\s*phone)?|mobile|number|contact)\b|\bcell\s*(?:phone\s*)?number\b/gi,
+    title: "Asks to move to personal contact details",
+    detail: "Asking for your personal email or cell number moves the conversation off official channels, where the organization can't see it and filters can't catch it.",
+    severity: "medium",
+    weight: 15,
+  },
 ]);
 
 const URGENCY = phraseBank("urgency", [
@@ -172,6 +179,13 @@ const CONTENT = phraseBank("content", [
     detail: "Being 'selected' or 'pre-approved' for something you never applied to is a mass-scam opener.",
     severity: "medium",
     weight: 15,
+  },
+  {
+    pattern: /\b(?:personal|virtual)\s+assistant\b|\brun(?:ning)?\s+(?:personal\s+)?errands?\b|\bwhile\s+I\s+(?:am\s+)?(?:travel(?:l?ing)?|away|abroad|out\s+of\s+(?:town|the\s+country)|at\s+(?:a\s+)?conference)\b/gi,
+    title: "Personal-assistant / errand job",
+    detail: "A \"professor\" or executive who needs a remote personal assistant to run errands while they travel is one of the scams universities most often warn students about. It usually leads to a fake check or a gift-card purchase.",
+    severity: "high",
+    weight: 25,
   },
 ]);
 
