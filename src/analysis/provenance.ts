@@ -1,4 +1,5 @@
 import {
+  affiliatedSource,
   hasNonAscii,
   hostFromInput,
   isChatHost,
@@ -34,6 +35,13 @@ function classifyDomainChannel(
   }
   if (claimedRegistrable && reg === claimedRegistrable) {
     return { verdict: "official", reason: `Matches the claimed domain ${claimedRegistrable}.` };
+  }
+  const affiliation = affiliatedSource(reg, claimedRegistrable);
+  if (affiliation) {
+    return {
+      verdict: "unrelated",
+      reason: `${reg} is listed by ${affiliation} as an institutional contact domain — affiliation does not prove this address is genuine; verify independently.`,
+    };
   }
   if (isPunycode(host) || hasNonAscii(host)) {
     return {

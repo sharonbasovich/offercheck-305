@@ -284,6 +284,11 @@ export default function App() {
               an offer is legitimate, and a high score does not prove a scam.
             </li>
             <li>Domain matching is best-effort and does not use the full Public Suffix List.</li>
+            <li>
+              A few senders may sit on an affiliated institutional domain verified from the
+              institution's own directory. Affiliation explains the domain — it is not proof
+              the address is genuine.
+            </li>
           </ul>
         </section>
       </main>

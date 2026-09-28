@@ -54,6 +54,30 @@ const FORM_BUILDERS = new Set([
   "google.com", "office.com", "wufoo.com", "123formbuilder.com",
 ]);
 
+/**
+ * Curated institutional domain affiliations: registrable domains that an
+ * institution's own official directory lists as legitimate contact domains
+ * (e.g. a department domain listed by the university). Only entries verified
+ * from an official institutional source belong here — never inferred from
+ * TLD or substring similarity. Affiliation is NOT proof an address is genuine.
+ */
+const AFFILIATED_DOMAINS = new Map<string, { affiliates: Set<string>; source: string }>([
+  [
+    "utoronto.ca",
+    {
+      affiliates: new Set(["toronto.edu"]),
+      source: "the University of Toronto's official directory (sgs.utoronto.ca/about/gud)",
+    },
+  ],
+]);
+
+/** Returns the official source citing `registrable` as a contact domain of `claimedRegistrable`, or null. */
+export function affiliatedSource(registrable: string | null, claimedRegistrable: string | null): string | null {
+  if (!registrable || !claimedRegistrable) return null;
+  const entry = AFFILIATED_DOMAINS.get(claimedRegistrable);
+  return entry?.affiliates.has(registrable) ? entry.source : null;
+}
+
 /** Messaging platforms — a link or handle here is a chat channel. */
 const CHAT_HOSTS = new Set([
   "t.me", "telegram.me", "wa.me", "whatsapp.com", "signal.me",

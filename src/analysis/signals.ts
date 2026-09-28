@@ -1,4 +1,5 @@
 import {
+  affiliatedSource,
   hostFromInput,
   isFreeWebmail,
   registrableDomain,
@@ -216,7 +217,22 @@ export function collectSignals(input: AnalyzeInput): {
   const senderRegistrable = senderHost ? registrableDomain(senderHost) : null;
 
   if (claimedHost) {
-    if (senderHost && senderRegistrable && claimedRegistrable && senderRegistrable !== claimedRegistrable) {
+    if (
+      senderHost &&
+      senderRegistrable &&
+      claimedRegistrable &&
+      affiliatedSource(senderRegistrable, claimedRegistrable)
+    ) {
+      signals.push({
+        id: "domain-sender-affiliated",
+        category: "domain",
+        severity: "info",
+        weight: 0,
+        title: "Sender uses an affiliated institutional domain",
+        detail: `${senderRegistrable} is listed by ${affiliatedSource(senderRegistrable, claimedRegistrable)} as an institutional contact domain of ${claimedRegistrable}. Affiliation explains the domain but does not prove this sender is genuine — verify through official channels.`,
+        evidence: [],
+      });
+    } else if (senderHost && senderRegistrable && claimedRegistrable && senderRegistrable !== claimedRegistrable) {
       const freeMail = isFreeWebmail(senderRegistrable);
       signals.push({
         id: "domain-sender-mismatch",
@@ -237,6 +253,18 @@ export function collectSignals(input: AnalyzeInput): {
         link.flags.includes("raw IP address") || link.flags.includes("unparseable URL");
       if (link.registrable && link.registrable !== claimedRegistrable && !skipOffDomain) {
         const isForm = link.flags.includes("third-party form host");
+        if (affiliatedSource(link.registrable, claimedRegistrable)) {
+          signals.push({
+            id: `link-affiliated-${link.start}`,
+            category: "link",
+            severity: "info",
+            weight: 0,
+            title: "Link is on an affiliated institutional domain",
+            detail: `${link.registrable} is listed by ${affiliatedSource(link.registrable, claimedRegistrable)} as an institutional domain of ${claimedRegistrable}. Affiliation does not prove the link is genuine.`,
+            evidence: [{ start: link.start, end: link.end, text: link.raw }],
+          });
+          continue;
+        }
         signals.push({
           id: `link-offdomain-${link.start}`,
           category: "link",
@@ -328,6 +356,18 @@ export function collectSignals(input: AnalyzeInput): {
   if (claimedRegistrable) {
     for (const e of inlineEmails) {
       if (e.registrable && e.registrable !== claimedRegistrable) {
+        if (affiliatedSource(e.registrable, claimedRegistrable)) {
+          signals.push({
+            id: `email-affiliated-${e.start}`,
+            category: "domain",
+            severity: "info",
+            weight: 0,
+            title: "Contact email is on an affiliated institutional domain",
+            detail: `${e.registrable} is listed by ${affiliatedSource(e.registrable, claimedRegistrable)} as an institutional contact domain of ${claimedRegistrable}. Affiliation does not prove the address is genuine.`,
+            evidence: [{ start: e.start, end: e.end, text: e.raw }],
+          });
+          continue;
+        }
         const freeMail = isFreeWebmail(e.registrable);
         signals.push({
           id: `email-offdomain-${e.start}`,

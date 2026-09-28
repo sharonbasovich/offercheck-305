@@ -140,6 +140,65 @@ describe("held-out payment-app fees", () => {
   });
 });
 
+describe("institutional affiliated domains", () => {
+  const uoftOffer =
+    "Dear Priya, Thank you for applying to the Computer Science graduate " +
+    "research program. We are pleased to offer you a research assistantship " +
+    "for the fall term. Your stipend will be paid in monthly installments " +
+    "through university payroll. Details are on the department page at " +
+    "https://cs.toronto.edu/graduate/funding and you can reach me at " +
+    "a.lee@cs.toronto.edu or 416 555 0164.";
+
+  it("legitimate cs.toronto.edu sender under claimed utoronto.ca stays Low, flagged affiliated not lookalike", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "University of Toronto",
+        claimedDomain: "utoronto.ca",
+        senderEmail: "a.lee@cs.toronto.edu",
+        offerText: uoftOffer,
+      }),
+    );
+    console.log(`uoft-legit score=${r.score} band=${r.band} signals=${r.signals.map((s) => s.id).join(",")}`);
+    expect(r.band).toBe("low");
+    expect(r.score).toBeLessThan(20);
+    expect(r.channels.every((c) => c.verdict !== "lookalike")).toBe(true);
+    const sender = r.channels.find((c) => c.kind === "sender");
+    expect(sender?.verdict).toBe("unrelated");
+    expect(sender?.reason).toMatch(/affiliat|listed by/i);
+    expect(hasSignal(r, "Sender uses an affiliated institutional domain")).toBe(true);
+  });
+
+  it("cs-toronto.edu (unaffiliated near-match) is not certified and still mismatches", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "University of Toronto",
+        claimedDomain: "utoronto.ca",
+        senderEmail: "recruit@cs-toronto.edu",
+        offerText: uoftOffer,
+      }),
+    );
+    console.log(`cs-toronto-spoof score=${r.score} band=${r.band} signals=${r.signals.map((s) => s.id).join(",")}`);
+    const sender = r.channels.find((c) => c.kind === "sender");
+    expect(sender?.verdict).not.toBe("official");
+    expect(r.signals.some((s) => s.id === "domain-sender-mismatch")).toBe(true);
+    expect(r.score).toBeGreaterThanOrEqual(20);
+  });
+
+  it("utoronto-careers.com remains a lookalike", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "University of Toronto",
+        claimedDomain: "utoronto.ca",
+        senderEmail: "jobs@utoronto-careers.com",
+        offerText: uoftOffer,
+      }),
+    );
+    console.log(`utoronto-careers score=${r.score} band=${r.band} signals=${r.signals.map((s) => s.id).join(",")}`);
+    expect(r.channels.some((c) => c.kind === "sender" && c.verdict === "lookalike")).toBe(true);
+    expect(r.signals.some((s) => s.id === "domain-sender-mismatch")).toBe(true);
+  });
+});
+
 describe("held-out legitimate controls", () => {
   it("uwaterloo.ca research assistant offer stays Low", () => {
     const r = analyzeOffer(
