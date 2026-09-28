@@ -103,7 +103,7 @@ function Results({ result, offerText }: { result: AnalysisResult; offerText: str
 
       {result.channels.length > 0 && (
         <div className="card">
-          <h3>Channel provenance — who controls each contact?</h3>
+          <h3>Channel provenance — how each contact relates to the claimed domain</h3>
           <p className="note">
             Every way the offer asks you to reply, pay, or continue — labeled against the claimed
             organization. Nothing here is clickable.
@@ -184,8 +184,8 @@ export default function App() {
         <h1>OfferCheck</h1>
         <p className="tagline">
           Every offer scam hands you its own "verification" contacts. OfferCheck shows which
-          channels the claimed institution actually controls — then a way to check the offer that
-          the sender can't intercept.
+          channels match, diverge from, or cannot be checked against the claimed institution's
+          domain — then a way to check the offer that the sender can't intercept.
         </p>
         <p className="privacy-badge">
           Runs 100% in your browser. Nothing you paste is sent, logged, or stored anywhere.
@@ -201,7 +201,7 @@ export default function App() {
             detector: OfferCheck maps the provenance of every contact channel in the offer
             (sender, links, phone, chat, payment) against the institution it claims to be from,
             flags the stages scam scripts use, and produces a verification path that never touches
-            a channel the sender supplied. It labels what it can prove — and says so when it can't.
+            a channel the sender supplied. It shows what it can check — and says so when it can't.
           </p>
         </section>
 

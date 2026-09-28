@@ -3,8 +3,9 @@
 **Privacy-first triage for internship and scholarship offers — built for first-generation students.**
 
 Every offer scam hands you its own "verification" contacts. OfferCheck shows which contact
-channels the claimed institution actually controls — sender, links, phones, chat handles,
-payment methods — and then gives you a verification path the sender can't intercept.
+channels — sender, links, phones, chat handles, payment methods — match, diverge from, or
+cannot be checked against the claimed institution's domain, then gives you a verification
+path the sender can't intercept.
 It runs entirely in your browser: nothing you paste is sent, logged, or stored anywhere.
 
 - **Live demo:** https://sharonbasovich.github.io/offercheck-305/
@@ -22,8 +23,9 @@ It runs entirely in your browser: nothing you paste is sent, logged, or stored a
 
 A static web app (React + TypeScript + Vite, no backend, no APIs) that analyzes a pasted
 internship/scholarship/job offer against the institution it claims to come from. It is
-**not a generic scam detector**: its core output is *channel provenance* — which of the
-offer channels the institution actually controls — plus an independent verification path.
+**not a generic scam detector**: its core output is *channel provenance* — how each channel
+in the offer relates to the claimed institution's domain — plus an independent verification
+path.
 
 ## 2. Problem
 

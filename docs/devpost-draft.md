@@ -5,8 +5,9 @@
 ## Tagline
 
 "Call the number in this email to confirm." — every offer scam says some version of
-this. OfferCheck's answer: no. It maps which contact channels the institution actually
-controls, then builds a verification path the scammer can't intercept. Nothing you
+this. OfferCheck's answer: no. It shows which contact channels match, diverge from, or
+cannot be checked against the institution's claimed domain, then builds a verification
+path the scammer can't intercept. Nothing you
 paste ever leaves your browser.
 
 ## Originality
@@ -24,7 +25,7 @@ pattern is elegant in the worst way: the offer itself supplies the phone number,
 email you'd use to "verify" it. First-generation students — often navigating offers
 without family experience or a built-in gut check — are a prime target. Most scam tools
 focus on scanning the message itself; OfferCheck puts its emphasis on a different
-question: **who actually controls each contact channel this offer is asking me to use?**
+question: **how does each contact channel this offer is asking me to use relate to the institution it claims to come from?**
 
 ## What it does
 
@@ -62,7 +63,7 @@ CI runs lint + tests + build on every push.
 
 Registrable-domain math without shipping the full Public Suffix List; keeping evidence
 spans byte-accurate while still parsing defanged URLs; and calibrating scoring so a
-genuine offer lands Low while the synthetic scam hits Stop — the test suite pins both
+plausible legitimate offer lands Low while the synthetic scam hits Stop — the test suite pins both
 ends and an ambiguous middle case.
 
 ## Accomplishments that we're proud of
