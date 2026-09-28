@@ -42,23 +42,30 @@ const PAYMENT = phraseBank("payment", [
     weight: 40,
   },
   {
-    pattern: /\b(?:processing|activation|registration|application|training|starter[-\s]?kit|equipment|software|background\s*check)\s+fees?\b/gi,
+    pattern: /\b(?:processing|activation|registration|application|training|starter[-\s]?kit|equipment|software|background\s*check|release|verification|insurance|clearance|disbursement|onboarding)\s+fees?\b/gi,
     title: "Upfront fee request",
     detail: "Any fee you must pay to receive a job, internship, or scholarship is a classic scam. Real employers and funders do not charge applicants.",
     severity: "high",
     weight: 40,
   },
   {
-    pattern: /\b(?:deposit|mobile\s*deposit|cash(?:app)?|zelle|venmo|paypal)\b.{0,40}\b(?:check|cheque|refund|reimburs)/gi,
+    pattern: /\b(?:deposit|mobile\s*deposit|cash(?:app)?|zelle|venmo|paypal)\b.{0,60}\b(?:check|cheque|refund|reimburs)|\b(?:check|cheque)\b.{0,60}\b(?:deposit|mobile\s*deposit|forward|send|transfer|keep)/gi,
     title: "Check-deposit / reimbursement scheme",
     detail: "Fake-check scams send you a check, ask you to deposit it, then forward part of the money. The check bounces weeks later and you owe the bank.",
     severity: "high",
     weight: 40,
   },
   {
-    pattern: /\b(?:send|forward|transfer)\s+(?:us\s+)?\$?\s*\d+/gi,
+    pattern: /\b(?:send|forward|transfer|pay|purchase|wire)\b[^.\n]{0,40}\$?\s*\d[\d,]*/gi,
     title: "Asked to send money",
     detail: "The offer asks you to send money. No legitimate opportunity requires applicants to send funds.",
+    severity: "high",
+    weight: 40,
+  },
+  {
+    pattern: /\b(?:check|cheque)\b[^.\n]{0,160}\b(?:vendor|supplier|equipment\s*(?:purchase|kit|bundle)|starter\s*kit)/gi,
+    title: "Fake-check vendor purchase",
+    detail: "Fake-check scams have you deposit a check and forward the balance to a 'vendor' or 'supplier'. The check bounces and the money you sent is gone.",
     severity: "high",
     weight: 40,
   },
@@ -121,7 +128,7 @@ const URGENCY = phraseBank("urgency", [
 
 const CHANNEL = phraseBank("channel", [
   {
-    pattern: /\b(?:telegram|whats\s*app|signal\s*app|google\s*hangouts?|text\s*message)\b.{0,60}\b(?:interview|onboard|contact|reply|continue|proceed)/gi,
+    pattern: /\b(?:telegram|whats\s*app|signal|wechat|google\s*chat|google\s*hangouts?|sms|text\s*message)\b[^.\n]{0,80}\b(?:interview|onboard|contact|reply|continue|proceed)|\b(?:interview|onboarding|onboard)\b[^.\n]{0,80}\b(?:telegram|whats\s*app|signal|wechat|google\s*chat|google\s*hangouts?|sms|via\s*text|text\s*message)|\b(?:text|sms)\s+interview\b/gi,
     title: "Interview moved to messaging app",
     detail: "Moving an interview or onboarding to Telegram/WhatsApp/text is a strong scam signal — real employers use verifiable corporate channels.",
     severity: "high",

@@ -90,11 +90,13 @@ No runtime dependencies beyond React; zero analytics, fonts, or CDN calls.
 
 ## 7. Results
 
-- 25 regression tests covering domain normalization, defanged-link extraction,
+- 31 regression tests covering domain normalization, defanged-link extraction,
   provenance verdicts (Official/Lookalike/Unrelated/Unverifiable), scam-script signals,
   band boundaries, and the invariant that the verification path never uses an
   offer-supplied channel.
-- Synthetic corpus: scam → **Stop**, plausible legitimate → **Low**, ambiguous → middle band.
+- Synthetic corpus: scam → **Stop**, plausible legitimate → **Low**, ambiguous → middle band,
+  plus a held-out suite (lookalike sender + messaging-app interview + fake-check vendor,
+  peer-to-peer release fees, and two legitimate university/scholarship controls).
 - CI runs lint + tests + build on every push; GitHub Pages deploys the static site.
 
 ## 8. What was built

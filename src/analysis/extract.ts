@@ -24,7 +24,8 @@ const KNOWN_TLDS = new Set([
 ]);
 const EMAIL_RE = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 const PHONE_RE = /(?:\+\d{1,3}[\s.-]?)?(?:\(\d{3}\)[\s.-]?|\d{3}[\s.-])\d{3}[\s.-]\d{4}\b/g;
-const CHAT_HANDLE_RE = /\b(?:telegram|whatsapp|signal|wechat)\s*(?:handle|id|username|@)?\s*[:=]?\s*@([a-z0-9_]{3,32})\b/gi;
+const CHAT_HANDLE_RE = /\b(?:telegram|whatsapp|signal|wechat|google\s*chat)\s*(?:handle|id|username|@)?\s*[:=]?\s*@([a-z0-9_]{3,32})\b/gi;
+const CHAT_PLATFORM_RE = /\b(?:telegram|whats\s*app|signal|wechat|google\s*chat|google\s*hangouts?)\b/gi;
 const PAYMENT_RE =
   /\b(?:gift\s*cards?|itunes\s*cards?|steam\s*cards?|e[-\s]?transfer|interac|zelle|venmo|cash\s*app|paypal|bitcoin|btc|usdt|crypto(?:currency)?|wire\s*transfer|western\s*union|moneygram|cashier'?s?\s*check|certified\s*check|money\s*order)\b/gi;
 
@@ -140,6 +141,19 @@ export function extractChatHandles(text: string): Span[] {
     handles.push({ start, end: start + handle.length, text: handle });
   }
   return handles;
+}
+
+export function extractChatPlatforms(text: string): Span[] {
+  const hits: Span[] = [];
+  const seen = new Set<string>();
+  CHAT_PLATFORM_RE.lastIndex = 0;
+  for (const m of text.matchAll(CHAT_PLATFORM_RE)) {
+    const key = m[0].toLowerCase().replace(/\s+/g, " ");
+    if (seen.has(key)) continue;
+    seen.add(key);
+    hits.push({ start: m.index ?? 0, end: (m.index ?? 0) + m[0].length, text: m[0] });
+  }
+  return hits;
 }
 
 export function extractPaymentInstruments(text: string): Span[] {

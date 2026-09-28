@@ -12,6 +12,7 @@ import {
 } from "./domains";
 import {
   extractChatHandles,
+  extractChatPlatforms,
   extractEmails,
   extractLinks,
   extractPaymentInstruments,
@@ -142,6 +143,17 @@ export function classifyChannels(input: AnalyzeInput): Channel[] {
       verdict: "unverifiable",
       reason: "Messaging-app handles belong to whoever registered them — they prove nothing about the organization.",
       span: h,
+    });
+  }
+
+  for (const p of extractChatPlatforms(input.offerText)) {
+    channels.push({
+      kind: "chat",
+      value: p.text,
+      hostname: null,
+      verdict: "unverifiable",
+      reason: "A messaging-platform contact is controlled by whoever registered the account — it cannot be tied to the organization offline.",
+      span: p,
     });
   }
 

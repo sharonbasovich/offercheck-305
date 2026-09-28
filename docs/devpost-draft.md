@@ -50,9 +50,12 @@ React 19 + TypeScript + Vite, deployed as a static site on GitHub Pages. The ana
 engine (`src/analysis/`) is a pure, deterministic pipeline: extract → normalize domains
 → classify channel provenance → match scam-script rules → score → build the verification
 path. No backend, no APIs, no storage, no network calls — enforced by a
-`connect-src 'none'` Content-Security-Policy, not just promised. 25 Vitest regression
-tests pin the behavior, including the invariant that verification steps never reference
-an offer-supplied channel, plus three UI tests verifying channels render as inert text.
+`connect-src 'none'` Content-Security-Policy, not just promised. 31 Vitest regression
+tests pin the behavior — including a held-out suite of synthetic scams (lookalike sender,
+messaging-app text interviews, fake-check-to-vendor schemes, P2P release fees) and
+legitimate university/scholarship controls — plus the invariant that verification steps
+never reference an offer-supplied channel, and three UI tests verifying channels render
+as inert text.
 CI runs lint + tests + build on every push.
 
 ## Challenges we ran into
