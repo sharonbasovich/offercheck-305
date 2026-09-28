@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OfferCheck — Judge Demo Video</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        background: #0b1020;
+        color: #e2e8f0;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        padding: 32px 16px;
+        box-sizing: border-box;
+      }
+      h1 { font-size: 1.5rem; margin: 0; }
+      h1 span { color: #5eead4; }
+      video {
+        width: min(960px, 100%);
+        border-radius: 12px;
+        border: 1px solid #334155;
+        background: #000;
+      }
+      .note {
+        max-width: 720px;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: #94a3b8;
+        text-align: center;
+      }
+      a { color: #5eead4; }
+    </style>
+  </head>
+  <body>
+    <h1><span>OfferCheck</span> — 75-second judge demo</h1>
+    <video controls preload="metadata" playsinline src="./offercheck-demo-voiced.mp4"></video>
+    <p class="note">
+      Voiceover is synthesized text-to-speech, not a human narrator. Every offer
+      shown is synthetic — no real organizations or offers were analyzed. A
+      &ldquo;Low&rdquo; score does not certify that an offer is authentic; always
+      verify independently. Try the live tool:
+      <a href="./index.html">OfferCheck</a> ·
+      <a href="https://github.com/sharonbasovich/offercheck-305">source code</a>
+    </p>
+  </body>
+</html>

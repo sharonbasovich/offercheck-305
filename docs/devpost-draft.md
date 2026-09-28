@@ -98,7 +98,7 @@ APIs, or datasets are used at runtime.
 
 - Repo: https://github.com/sharonbasovich/offercheck-305
 - Demo: https://sharonbasovich.github.io/offercheck-305/
-- Video: _[add YouTube/Drive link — narrated MP4 recorded at docs/../artifacts]_
+- Video: https://sharonbasovich.github.io/offercheck-305/video.html (synthesized voiceover, captioned; all offers synthetic)
 - Slides: _[add public Google Slides link]_
 
 ## Devpost field map
@@ -111,7 +111,7 @@ APIs, or datasets are used at runtime.
 | Built with | React, TypeScript, Vite, Vitest, GitHub Pages |
 | Try it out | https://sharonbasovich.github.io/offercheck-305/ |
 | GitHub repo | https://github.com/sharonbasovich/offercheck-305 |
-| Video demo | _MP4/YouTube link — see capture plan_ |
+| Video demo | https://sharonbasovich.github.io/offercheck-305/video.html (GitHub Pages-hosted MP4; synthesized TTS voiceover + captions; disclose both in the Devpost video field if a description box exists) |
 | GenAI question | Devin (Cognition) — design + implementation; answer honestly, add "Other" |
 | Prizes | Session B (virtual); Gemma Challenge only if an on-device model ships — it does not |
 | Screenshots | docs/screenshots/*.png in the repo |

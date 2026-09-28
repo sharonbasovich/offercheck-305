@@ -11,7 +11,8 @@ It runs entirely in your browser: nothing you paste is sent, logged, or stored a
 - **Hackathon:** 305 HackShells, September 2026, Session B (virtual, worldwide)
 - **Competition type:** Technical
 - **Team:** Solo — Sharon Basovich
-- **Demo video / slides:** see `docs/capture-plan.md`
+- **Demo video:** https://sharonbasovich.github.io/offercheck-305/video.html (synthesized TTS voiceover, captioned; all offers synthetic)
+- **Slides / capture plan:** see `docs/capture-plan.md`
 
 ![OfferCheck flagging a synthetic scam offer — Stop band, lookalike sender, channel map](docs/screenshots/05-scam-full.png)
 
