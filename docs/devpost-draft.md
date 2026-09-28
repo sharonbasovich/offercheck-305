@@ -22,9 +22,9 @@ scores Low, and the zero-network guarantee is enforced by CSP, not promised.
 Job- and internship-scam reports to the FTC have grown sharply, and the standard scam
 pattern is elegant in the worst way: the offer itself supplies the phone number, link, or
 email you'd use to "verify" it. First-generation students — often navigating offers
-without family experience or a built-in gut check — are a prime target. Existing scam
-detectors scan messages generically; none of them answer the question that matters:
-**who actually controls each contact channel this offer is asking me to use?**
+without family experience or a built-in gut check — are a prime target. Most scam tools
+focus on scanning the message itself; OfferCheck puts its emphasis on a different
+question: **who actually controls each contact channel this offer is asking me to use?**
 
 ## What it does
 
