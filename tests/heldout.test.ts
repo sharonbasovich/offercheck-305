@@ -254,6 +254,22 @@ describe("held-out reshipping mule job", () => {
     expect(r.score).toBeGreaterThanOrEqual(45);
   });
 
+  it("ordinary warehouse forwarding stays Low", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "North Peak Logistics",
+        claimedDomain: "northpeak-logistics.example",
+        senderEmail: "hiring@northpeak-logistics.example",
+        offerText:
+          "Warehouse associates forward packages to regional carriers and keep " +
+          "the loading dock clear. Shift hours and pay bands are in the posting.",
+      }),
+    );
+    console.log(`warehouse-forwarding score=${r.score} band=${r.band} signals=${r.signals.map((s) => s.id).join(",")}`);
+    expect(r.band).toBe("low");
+    expect(hasSignal(r, "Reshipping / package-forwarding job")).toBe(false);
+  });
+
   it("warehouse role at an official domain stays Low", () => {
     const r = analyzeOffer(
       input({
