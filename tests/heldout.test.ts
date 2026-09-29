@@ -238,6 +238,50 @@ describe("held-out professor-assistant scam", () => {
   });
 });
 
+describe("held-out credential phishing", () => {
+  it("offer letter behind an off-domain WatIAM password sign-in reaches High or Stop", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "University of Waterloo",
+        claimedDomain: "uwaterloo.ca",
+        senderEmail: "noreply@uwaterloo.ca",
+        offerText:
+          "Your internship offer letter is ready. Sign in with your WatIAM password " +
+          "at https://uwaterloo-offer.docs-sign.com to view it.",
+      }),
+    );
+    expect(hasSignal(r, "Password or login code requested")).toBe(true);
+    expect(r.score).toBeGreaterThanOrEqual(45);
+  });
+
+  it("request to read back a texted verification code is flagged", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "Shopify",
+        claimedDomain: "shopify.com",
+        senderEmail: "talent.shopify@gmail.com",
+        offerText: "To confirm your identity for the interview, reply with the 6-digit verification code we just texted you.",
+      }),
+    );
+    expect(hasSignal(r, "Password or login code requested")).toBe(true);
+  });
+
+  it("official portal login reminder without credential request stays Low", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "University of Waterloo",
+        claimedDomain: "uwaterloo.ca",
+        senderEmail: "coop@uwaterloo.ca",
+        offerText:
+          "Your co-op interview with Shopify is scheduled on WaterlooWorks for Tuesday. " +
+          "Please log in to WaterlooWorks to confirm.",
+      }),
+    );
+    expect(r.band).toBe("low");
+    expect(hasSignal(r, "Password or login code requested")).toBe(false);
+  });
+});
+
 describe("held-out short-brand hyphenated lookalike", () => {
   it("td-careers.ca imitates td.com", () => {
     expect(isLookalike("td-careers.ca", "td.com")).toBe(true);

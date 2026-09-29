@@ -122,6 +122,13 @@ const PII = phraseBank("pii", [
     severity: "medium",
     weight: 15,
   },
+  {
+    pattern: /\b(?:pass\s*word|passcode|pass\s*phrase|PIN|login\s+credentials|(?:2FA|MFA|one[-\s]?time|verification|security|authenticat(?:ion|or))\s+code)s?\b/gi,
+    title: "Password or login code requested",
+    detail: "No real employer or university asks for your password or a login code in an offer. Sign-in links in unsolicited offers usually lead to a copy of the real login page that captures your credentials.",
+    severity: "high",
+    weight: 35,
+  },
 ]);
 
 const URGENCY = phraseBank("urgency", [
