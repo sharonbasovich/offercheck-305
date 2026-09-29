@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { analyzeOffer } from "../src/analysis";
+import { isLookalike } from "../src/analysis/domains";
 import type { AnalyzeInput } from "../src/analysis";
 
 const input = (partial: Partial<AnalyzeInput>): AnalyzeInput => ({
@@ -234,6 +235,19 @@ describe("held-out professor-assistant scam", () => {
     expect(r.band).toBe("low");
     expect(hasSignal(r, "Personal-assistant / errand job")).toBe(false);
     expect(hasSignal(r, "Asks to move to personal contact details")).toBe(false);
+  });
+});
+
+describe("held-out short-brand hyphenated lookalike", () => {
+  it("td-careers.ca imitates td.com", () => {
+    expect(isLookalike("td-careers.ca", "td.com")).toBe(true);
+    expect(isLookalike("careers-ibm.com", "ibm.com")).toBe(true);
+  });
+
+  it("unrelated domains containing the short brand as a substring are not lookalikes", () => {
+    expect(isLookalike("stdlib.com", "td.com")).toBe(false);
+    expect(isLookalike("tdameritrade.com", "td.com")).toBe(false);
+    expect(isLookalike("ibmforums-archive.org", "ibm.com")).toBe(false);
   });
 });
 

@@ -201,6 +201,7 @@ export function isLookalike(host: string, claimedRegistrable: string): boolean {
   const sld = sldOf(reg);
   if (!claimedSld || !sld) return false;
   if (claimedSld.length >= 4 && (sld.includes(claimedSld) || claimedSld.includes(sld))) return true;
+  if (claimedSld.length >= 2 && sld !== claimedSld && sld.split("-").includes(claimedSld)) return true;
   if (Math.abs(sld.length - claimedSld.length) <= 2 && levenshtein(sld, claimedSld) <= 2) return true;
   return false;
 }
