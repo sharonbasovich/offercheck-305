@@ -270,6 +270,39 @@ describe("held-out reshipping mule job", () => {
     expect(hasSignal(r, "Reshipping / package-forwarding job")).toBe(false);
   });
 
+  it("legitimate Package Handler posting stays Low", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "North Peak Logistics",
+        claimedDomain: "northpeak-logistics.example",
+        senderEmail: "hiring@northpeak-logistics.example",
+        offerText:
+          "We're hiring a Package Handler at our Cambridge distribution centre. " +
+          "You'll scan, sort, and load outbound shipments on the evening shift. " +
+          "Safety training provided on site.",
+      }),
+    );
+    console.log(`package-handler score=${r.score} band=${r.band} signals=${r.signals.map((s) => s.id).join(",")}`);
+    expect(r.band).toBe("low");
+    expect(hasSignal(r, "Reshipping / package-forwarding job")).toBe(false);
+  });
+
+  it("work-from-home Package Inspector mule ad still flags", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "Global Parcel Co",
+        claimedDomain: "globalparcel.example",
+        senderEmail: "recruit@globalparcel-careers.example",
+        offerText:
+          "Work from home as a Package Inspector. Receive parcels at your " +
+          "address, check them, and forward them to clients abroad.",
+      }),
+    );
+    console.log(`inspector-mule score=${r.score} band=${r.band} signals=${r.signals.map((s) => s.id).join(",")}`);
+    expect(hasSignal(r, "Reshipping / package-forwarding job")).toBe(true);
+    expect(r.score).toBeGreaterThanOrEqual(45);
+  });
+
   it("warehouse role at an official domain stays Low", () => {
     const r = analyzeOffer(
       input({
