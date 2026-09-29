@@ -215,6 +215,13 @@ const CONTENT = phraseBank("content", [
     severity: "high",
     weight: 25,
   },
+  {
+    pattern: /\b(?:receive|accept|collect)\s+(?:the\s+)?(?:packages?|parcels?|shipments?|deliveries|merchandise)\b[^.!?\n]{0,80}\b(?:home|house|address|residence)\b|\b(?:re-?ship|re-?package|re-?label|forward)(?:ing)?\s+(?:the\s+|them\b|these\s+)?(?:packages?|parcels?|shipments?|items|merchandise|them)\b|\bpackage\s+(?:inspector|handler|forwarder|reshipper)\b/gi,
+    title: "Reshipping / package-forwarding job",
+    detail: "Jobs that have you receive packages at home and reship or forward them make you the last hop for goods bought with stolen cards. You can be held responsible, and the promised pay rarely arrives.",
+    severity: "high",
+    weight: 35,
+  },
 ]);
 
 const ALL_BANKS = [...PAYMENT, ...PII, ...URGENCY, ...CHANNEL, ...CONTENT];

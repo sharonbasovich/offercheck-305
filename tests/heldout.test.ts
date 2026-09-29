@@ -238,6 +238,38 @@ describe("held-out professor-assistant scam", () => {
   });
 });
 
+describe("held-out reshipping mule job", () => {
+  it("receive packages at home and forward them overseas reaches High or Stop", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "Amazon",
+        claimedDomain: "amazon.com",
+        senderEmail: "amazon.hr.team@gmail.com",
+        offerText:
+          "You'll receive packages at home, inspect them, and forward them to our " +
+          "overseas clients with the labels we provide.",
+      }),
+    );
+    expect(hasSignal(r, "Reshipping / package-forwarding job")).toBe(true);
+    expect(r.score).toBeGreaterThanOrEqual(45);
+  });
+
+  it("warehouse role at an official domain stays Low", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "Amazon",
+        claimedDomain: "amazon.com",
+        senderEmail: "university-recruiting@amazon.com",
+        offerText:
+          "Thanks for applying to the Operations Intern role at our Cambridge " +
+          "fulfillment centre. Next steps are listed in your candidate portal.",
+      }),
+    );
+    expect(r.band).toBe("low");
+    expect(hasSignal(r, "Reshipping / package-forwarding job")).toBe(false);
+  });
+});
+
 describe("held-out overpayment and third-party payment agent", () => {
   it("scholarship 'overpaid, refund the difference' reaches High or Stop", () => {
     const r = analyzeOffer(
