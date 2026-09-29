@@ -238,6 +238,56 @@ describe("held-out professor-assistant scam", () => {
   });
 });
 
+describe("held-out overpayment and third-party payment agent", () => {
+  it("scholarship 'overpaid, refund the difference' reaches High or Stop", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "University of Waterloo",
+        claimedDomain: "uwaterloo.ca",
+        senderEmail: "awards.office@outlook.com",
+        offerText:
+          "Congratulations, you won the Merit Scholarship of $5,000. We accidentally " +
+          "sent an extra $1,200 to your account; please refund the difference via " +
+          "Interac before your award is processed.",
+      }),
+    );
+    expect(hasSignal(r, "Overpayment refund request")).toBe(true);
+    expect(r.score).toBeGreaterThanOrEqual(70);
+  });
+
+  it("tuition discount paid through an 'agent' reaches High or Stop", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "University of Waterloo",
+        claimedDomain: "uwaterloo.ca",
+        senderEmail: "finance@uwaterloo-tuition.com",
+        offerText:
+          "Pay your tuition through our partner and get a 30% discount. Transfer the " +
+          "balance to our agent and we will pay the university on your behalf.",
+      }),
+    );
+    expect(hasSignal(r, "Payment routed through a third-party agent")).toBe(true);
+    expect(r.score).toBeGreaterThanOrEqual(70);
+  });
+
+  it("official award paid to student account with payroll partner stays Low", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "University of Waterloo",
+        claimedDomain: "uwaterloo.ca",
+        senderEmail: "awards@uwaterloo.ca",
+        offerText:
+          "Your $2,000 award has been credited to your student account in Quest. " +
+          "Research stipends are paid through our payroll partner by direct deposit; " +
+          "there is nothing you need to pay or return.",
+      }),
+    );
+    expect(r.band).toBe("low");
+    expect(hasSignal(r, "Overpayment refund request")).toBe(false);
+    expect(hasSignal(r, "Payment routed through a third-party agent")).toBe(false);
+  });
+});
+
 describe("held-out credential phishing", () => {
   it("offer letter behind an off-domain WatIAM password sign-in reaches High or Stop", () => {
     const r = analyzeOffer(

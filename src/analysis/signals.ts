@@ -71,6 +71,20 @@ const PAYMENT = phraseBank("payment", [
     weight: 40,
   },
   {
+    pattern: /\b(?:overpa(?:id|yment)|(?:sent|paid|deposited|transferred|credited)\s+(?:you\s+|to\s+your\s+account\s+)?(?:an?\s+)?(?:extra|excess|too\s+much|more\s+than))\b[^.!?\n]{0,160}\b(?:refund|return|send\s+back|pay\s+back|difference|excess|remainder)\b|\b(?:refund|return|send\s+back|pay\s+back)\s+(?:us\s+)?(?:the\s+)?(?:difference|excess|extra|overpayment|remainder)\b/gi,
+    title: "Overpayment refund request",
+    detail: "Being \"accidentally\" overpaid and asked to refund the difference is a fake-payment scam: the original deposit is reversed later, and the money you sent back is gone.",
+    severity: "high",
+    weight: 40,
+  },
+  {
+    pattern: /\b(?:pay|transfer|send|remit|wire)\b[^.!?\n]{0,60}\b(?:to|through|via)\s+(?:our|a|an|the)\s+(?:agent|partner|representative|intermediary|middleman|broker)\b|\bpay\s+(?:the\s+)?(?:university|school|college|institution|tuition|fees?)\b[^.!?\n]{0,40}\bon\s+your\s+behalf\b/gi,
+    title: "Payment routed through a third-party agent",
+    detail: "Real universities and employers take payments only through their own official portals. An \"agent\" or \"partner\" who collects your money and pays the institution on your behalf is a common tuition-discount scam.",
+    severity: "high",
+    weight: 40,
+  },
+  {
     pattern: /(?<=^|[.!?\n])[^.!?\n]*?(?=[^.!?\n]*\b(?:fees?|charges?|costs?|payable|price|purchase|buy)\b)[^.!?\n]*?\b(?:venmo|cash\s*app|zelle|paypal|apple\s*(?:pay|cash)|interac(?:\s*e-?transfer)?|e-?transfer)\b/gi,
     title: "Fee payable through a payment app",
     detail: "The offer asks you to pay a fee or charge through a peer-to-peer payment app. These transfers are instant and hard to reverse, which is why scammers prefer them. Real employers and funders do not charge you.",
