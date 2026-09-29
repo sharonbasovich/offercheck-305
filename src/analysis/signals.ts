@@ -43,7 +43,7 @@ const PAYMENT = phraseBank("payment", [
     weight: 40,
   },
   {
-    pattern: /\b(?:processing|activation|registration|application|training|starter[-\s]?kit|equipment|software|background\s*check|release|verification|insurance|clearance|disbursement|onboarding|kit)\s+(?:fees?|charges?|costs?)\b/gi,
+    pattern: /\b(?:processing|activation|registration|application|training|starter[-\s]?kit|equipment|software|background\s*(?:check|screening)|screening|release|verification|insurance|clearance|disbursement|onboarding|kit)\s+(?:fees?|charges?|costs?)\b/gi,
     title: "Upfront fee request",
     detail: "Any fee you must pay to receive a job, internship, or scholarship is a classic scam. Real employers and funders do not charge applicants.",
     severity: "high",
@@ -74,6 +74,13 @@ const PAYMENT = phraseBank("payment", [
     pattern: /(?<=^|[.!?\n])[^.!?\n]*?(?=[^.!?\n]*\b(?:fees?|charges?|costs?|payable|price|purchase|buy)\b)[^.!?\n]*?\b(?:venmo|cash\s*app|zelle|paypal|apple\s*(?:pay|cash)|interac(?:\s*e-?transfer)?|e-?transfer)\b/gi,
     title: "Fee payable through a payment app",
     detail: "The offer asks you to pay a fee or charge through a peer-to-peer payment app. These transfers are instant and hard to reverse, which is why scammers prefer them. Real employers and funders do not charge you.",
+    severity: "high",
+    weight: 40,
+  },
+  {
+    pattern: /\b(?:charged|billed|debited)\s+(?:to\s+)?(?:your\s+)?(?:credit\s+|debit\s+)?card\b|\breimburs\w*\s+(?:on|in|with|from|through)\s+your\s+first\s+(?:pay\s*check|paycheque|pay\s*stub|salary|payroll|payment)\b/gi,
+    title: "Pay now, reimbursed later",
+    detail: "Being told to pay a screening, training, or equipment cost now and get it back on your first paycheck is an upfront-fee scam. Real employers pay these costs directly.",
     severity: "high",
     weight: 40,
   },

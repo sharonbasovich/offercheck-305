@@ -237,6 +237,39 @@ describe("held-out professor-assistant scam", () => {
   });
 });
 
+describe("held-out pay-now-reimbursed-later fee", () => {
+  it("screening charged to your card and reimbursed on first paycheck reaches High or Stop", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "TD Bank",
+        claimedDomain: "td.com",
+        senderEmail: "careers@td-careers.ca",
+        offerText:
+          "You are hired pending a background screening. Please complete the " +
+          "screening through our partner at https://quickscreen-verify.com; the " +
+          "$39.99 screening is charged to your card and reimbursed on your first paycheck.",
+      }),
+    );
+    expect(hasSignal(r, "Pay now, reimbursed later")).toBe(true);
+    expect(r.score).toBeGreaterThanOrEqual(70);
+  });
+
+  it("employer-paid background check stays Low", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "Shopify",
+        claimedDomain: "shopify.com",
+        senderEmail: "recruiting@shopify.com",
+        offerText:
+          "Your offer is contingent on a background check, which Shopify pays for. " +
+          "You'll receive an invitation from recruiting@shopify.com; there is no cost to you.",
+      }),
+    );
+    expect(r.band).toBe("low");
+    expect(hasSignal(r, "Pay now, reimbursed later")).toBe(false);
+  });
+});
+
 describe("held-out legitimate controls", () => {
   it("uwaterloo.ca research assistant offer stays Low", () => {
     const r = analyzeOffer(
