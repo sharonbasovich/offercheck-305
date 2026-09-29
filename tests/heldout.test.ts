@@ -238,6 +238,38 @@ describe("held-out professor-assistant scam", () => {
   });
 });
 
+describe("held-out immigration threat", () => {
+  it("fake IRCC study-permit penalty with deportation threat reaches Stop", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "IRCC",
+        claimedDomain: "canada.ca",
+        senderEmail: "ircc.visa.office@gmail.com",
+        offerText:
+          "Your study permit has an error. Pay the correction penalty today or you " +
+          "will be deported. Call 1-888-555-0199.",
+      }),
+    );
+    expect(hasSignal(r, "Threat of deportation, arrest, or legal action")).toBe(true);
+    expect(r.band).toBe("stop");
+  });
+
+  it("official permit-renewal reminder and police-check onboarding stay Low", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "University of Waterloo",
+        claimedDomain: "uwaterloo.ca",
+        senderEmail: "international@uwaterloo.ca",
+        offerText:
+          "Your study permit expires in 60 days. See the IRCC website to renew. Your " +
+          "co-op employer may also ask for a police record check during onboarding.",
+      }),
+    );
+    expect(r.band).toBe("low");
+    expect(hasSignal(r, "Threat of deportation, arrest, or legal action")).toBe(false);
+  });
+});
+
 describe("held-out source-verified employer careers domain", () => {
   it("amazon.jobs link in a genuine Amazon offer is not a Lookalike and stays Low", () => {
     const r = analyzeOffer(

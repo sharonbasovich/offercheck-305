@@ -154,6 +154,13 @@ const URGENCY = phraseBank("urgency", [
     weight: 12,
   },
   {
+    pattern: /\b(?:deport(?:ed|ation)?|arrest(?:ed)?|legal\s+action|police\s+will|(?:study|work)\s+permit\b[^.!?\n]{0,30}\b(?:cancel(?:l?ed)?|revoked|suspended|invalid(?:ated)?)|visa\b[^.!?\n]{0,30}\b(?:cancel(?:l?ed)?|revoked|suspended|invalid(?:ated)?))\b/gi,
+    title: "Threat of deportation, arrest, or legal action",
+    detail: "Scammers impersonating immigration or government offices threaten deportation, arrest, or a cancelled permit to scare students into paying. IRCC and the CRA don't threaten you or demand payment by phone, email, or text.",
+    severity: "high",
+    weight: 35,
+  },
+  {
     pattern: /\b(?:within|in\s*the\s*next)\s+(?:24|48|72)\s*hours?\b/gi,
     title: "Short deadline pressure",
     detail: "24–72 hour deadlines are designed to stop you from checking with the real organization.",
