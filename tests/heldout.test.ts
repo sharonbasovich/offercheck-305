@@ -238,6 +238,27 @@ describe("held-out professor-assistant scam", () => {
   });
 });
 
+describe("held-out source-verified employer careers domain", () => {
+  it("amazon.jobs link in a genuine Amazon offer is not a Lookalike and stays Low", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "Amazon",
+        claimedDomain: "amazon.com",
+        senderEmail: "university-recruiting@amazon.com",
+        offerText:
+          "Thanks for applying to the Operations Intern role at our Cambridge " +
+          "fulfillment centre. Next steps are listed on https://www.amazon.jobs under your application.",
+      }),
+    );
+    expect(r.channels.find((c) => c.value.includes("amazon.jobs"))?.verdict).not.toBe("lookalike");
+    expect(r.band).toBe("low");
+  });
+
+  it("an unlisted look-alike careers domain is still a Lookalike", () => {
+    expect(isLookalike("amazon-jobs.net", "amazon.com")).toBe(true);
+  });
+});
+
 describe("held-out reshipping mule job", () => {
   it("receive packages at home and forward them overseas reaches High or Stop", () => {
     const r = analyzeOffer(

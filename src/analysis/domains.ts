@@ -69,6 +69,13 @@ const AFFILIATED_DOMAINS = new Map<string, { affiliates: Set<string>; source: st
       source: "the University of Toronto's official directory (sgs.utoronto.ca/about/gud)",
     },
   ],
+  [
+    "amazon.com",
+    {
+      affiliates: new Set(["amazon.jobs"]),
+      source: "Amazon's official corporate site (aboutamazon.com footer \"Careers\" link)",
+    },
+  ],
 ]);
 
 /** Returns the official source citing `registrable` as a contact domain of `claimedRegistrable`, or null. */

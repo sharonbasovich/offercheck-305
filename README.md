@@ -92,7 +92,7 @@ No runtime dependencies beyond React; zero analytics, fonts, or CDN calls.
 
 ## 7. Results
 
-- 54 regression tests covering domain normalization, defanged-link extraction,
+- 56 regression tests covering domain normalization, defanged-link extraction,
   provenance verdicts (Official/Lookalike/Unrelated/Unverifiable), scam-script signals,
   band boundaries, and the invariant that the verification path never uses an
   offer-supplied channel.
