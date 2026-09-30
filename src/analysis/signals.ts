@@ -109,7 +109,14 @@ const PII = phraseBank("pii", [
     weight: 30,
   },
   {
-    pattern: /\b(?:passport|driver'?s?\s*licen[sc]e|national\s*id|photo\s*id)\b.{0,40}\b(?:copy|number|scan|upload|attach|send)/gi,
+    pattern: /\b(?:[Ss]ocial\s*[Ii]nsurance|SIN)\b/g,
+    title: "Social Insurance Number (SIN) requested",
+    detail: "A Canadian SIN should only be given after an offer is independently verified, on the employer's official payroll or TD1 onboarding forms — never over email, chat, or a form linked in a message.",
+    severity: "high",
+    weight: 30,
+  },
+  {
+    pattern: /\b(?:passport|driver'?s?\s*licen[sc]e|national\s*id|photo\s*id)\b.{0,40}\b(?:copy|number|scan|upload|attach|send)|\b(?:copy|photo|picture|scan|image|selfie)\s+(?:of|with)\s+(?:your\s+)?(?:passport|driver'?s?\s*licen[sc]e|national\s*id|photo\s*id|study\s*permit|ID\b)/gi,
     title: "Identity document requested",
     detail: "Asking for scans of passports or IDs before verification is a common identity-theft vector.",
     severity: "high",

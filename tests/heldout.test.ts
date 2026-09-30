@@ -238,6 +238,39 @@ describe("held-out professor-assistant scam", () => {
   });
 });
 
+describe("held-out Canadian SIN and ID-photo request", () => {
+  it("fake scholarship asking for SIN and a passport photo reaches Stop", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "University of Waterloo",
+        claimedDomain: "uwaterloo.ca",
+        senderEmail: "uw.scholarships@yahoo.com",
+        offerText:
+          "You have been selected for the $10,000 Global Excellence Scholarship. " +
+          "Kindly provide your SIN and a photo of your passport to process disbursement.",
+      }),
+    );
+    expect(hasSignal(r, "Social Insurance Number (SIN) requested")).toBe(true);
+    expect(hasSignal(r, "Identity document requested")).toBe(true);
+    expect(r.band).toBe("stop");
+  });
+
+  it("the English word 'sin' and a verified TD1 onboarding note stay Low", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "Shopify",
+        claimedDomain: "shopify.com",
+        senderEmail: "people@shopify.com",
+        offerText:
+          "It would be a sin to miss our intern welcome week! Please sign your offer " +
+          "in Workday and complete your TD1 tax forms by Friday.",
+      }),
+    );
+    expect(r.band).toBe("low");
+    expect(hasSignal(r, "Social Insurance Number (SIN) requested")).toBe(false);
+  });
+});
+
 describe("held-out immigration threat", () => {
   it("fake IRCC study-permit penalty with deportation threat reaches Stop", () => {
     const r = analyzeOffer(
