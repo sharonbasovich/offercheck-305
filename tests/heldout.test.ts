@@ -238,6 +238,38 @@ describe("held-out professor-assistant scam", () => {
   });
 });
 
+describe("held-out reworded gift-card request", () => {
+  it("'pick up Apple cards and share the codes' is flagged as a gift-card payment", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "RBC",
+        claimedDomain: "rbc.com",
+        senderEmail: "hr@rbc-talent.com",
+        offerText:
+          "Before your start date please pick up three Apple cards at any store and " +
+          "share the codes so IT can set up your laptop.",
+      }),
+    );
+    expect(hasSignal(r, "Gift card payment request")).toBe(true);
+    expect(["high", "stop"]).toContain(r.band);
+  });
+
+  it("a corporate Visa card for approved travel on an official offer stays Low", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "RBC",
+        claimedDomain: "rbc.com",
+        senderEmail: "campus.recruiting@rbc.com",
+        offerText:
+          "Payroll is by direct deposit. Interns who travel receive a corporate Visa " +
+          "card for approved expenses, issued by your manager after onboarding.",
+      }),
+    );
+    expect(r.band).toBe("low");
+    expect(hasSignal(r, "Gift card payment request")).toBe(false);
+  });
+});
+
 describe("held-out Canadian SIN and ID-photo request", () => {
   it("fake scholarship asking for SIN and a passport photo reaches Stop", () => {
     const r = analyzeOffer(

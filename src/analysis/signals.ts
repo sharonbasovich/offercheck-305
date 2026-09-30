@@ -21,7 +21,7 @@ function phraseBank(category: Signal["category"], defs: PhraseDef[]) {
 
 const PAYMENT = phraseBank("payment", [
   {
-    pattern: /\b(?:gift|itunes|steam|google\s*play|amazon)\s*cards?\b/gi,
+    pattern: /\b(?:gift|itunes|steam|google\s*play|amazon)\s*cards?\b|\b(?:apple|visa|vanilla|prepaid|store|ebay|walmart|target|best\s*buy|sephora)\s+cards?\b[^.!?\n]{0,80}\b(?:codes?|pins?|receipts?)\b|\b(?:buy|purchase|pick\s+up|get)\s+(?:\w+\s+){0,3}(?:apple|visa|vanilla|prepaid|store|ebay|walmart|target|best\s*buy|sephora)\s+cards?\b/gi,
     title: "Gift card payment request",
     detail:
       "Legitimate employers and scholarship programs never ask you to buy or send gift cards. This is the single most common advance-fee scam pattern.",
