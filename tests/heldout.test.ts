@@ -238,6 +238,39 @@ describe("held-out professor-assistant scam", () => {
   });
 });
 
+describe("held-out look-alike sender asking for a home address", () => {
+  it("shopify-careers.co offer asking to reply with a home address reaches High", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "Shopify",
+        claimedDomain: "shopify.com",
+        senderEmail: "talent@shopify-careers.co",
+        offerText:
+          "We reviewed your resume and would like to offer you a remote Data Entry " +
+          "Intern role. Please confirm your acceptance by replying with your full " +
+          "legal name and home address.",
+      }),
+    );
+    expect(hasSignal(r, "Home address requested by reply")).toBe(true);
+    expect(["high", "stop"]).toContain(r.band);
+  });
+
+  it("official offer that ships a laptop to your home address via Workday stays Low", () => {
+    const r = analyzeOffer(
+      input({
+        organization: "Shopify",
+        claimedDomain: "shopify.com",
+        senderEmail: "people@shopify.com",
+        offerText:
+          "We'll send your laptop to the home address in your Workday profile, so " +
+          "please keep your mailing address up to date there before your start date.",
+      }),
+    );
+    expect(r.band).toBe("low");
+    expect(hasSignal(r, "Home address requested by reply")).toBe(false);
+  });
+});
+
 describe("held-out reworded gift-card request", () => {
   it("'pick up Apple cards and share the codes' is flagged as a gift-card payment", () => {
     const r = analyzeOffer(

@@ -144,6 +144,13 @@ const PII = phraseBank("pii", [
     weight: 15,
   },
   {
+    pattern: /\b(?:repl(?:y|ying|ied)|respond(?:ing)?)\s+(?:back\s+)?with\b[^.!?\n]{0,60}\b(?:home|mailing|residential)\s+address\b|\b(?:send|e-?mail|text|message)\s+(?:us|me)\b[^.!?\n]{0,60}\b(?:home|mailing|residential)\s+address\b/gi,
+    title: "Home address requested by reply",
+    detail: "Real employers collect your address on their official onboarding portal after you accept. Asking you to reply with it gives a stranger what they need to open accounts or ship stolen goods to you.",
+    severity: "medium",
+    weight: 20,
+  },
+  {
     pattern: /\b(?:pass\s*word|passcode|pass\s*phrase|PIN|login\s+credentials|(?:2FA|MFA|one[-\s]?time|verification|security|authenticat(?:ion|or))\s+code)s?\b/gi,
     title: "Password or login code requested",
     detail: "No real employer or university asks for your password or a login code in an offer. Sign-in links in unsolicited offers usually lead to a copy of the real login page that captures your credentials.",
